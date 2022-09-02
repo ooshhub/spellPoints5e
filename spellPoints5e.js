@@ -39,11 +39,9 @@ const spellPoints5e = (() => { //eslint-disable-line
           if (config.spellPointsResourceNameRx.test(a.get('current'))) return a;
         }
       });
-    console.info(spellPointNameAttribute);
     if (!spellPointNameAttribute) return postMessage(`Couldn't find spell points resource on ${character.name}`, 'gm');
     const valueAttributeName = spellPointNameAttribute.get('name').replace(/_name$/i, ''),
       spellPointsAttribute = findObjs({ type: 'attribute', characterid: character.id, name: valueAttributeName })[0];
-    console.log(spellPointsAttribute);
     if (!spellPointsAttribute) return postMessage(`Couldn't find spell points value on ${character.name}`, 'gm');
     return spellPointsAttribute;
   }
@@ -76,7 +74,6 @@ const spellPoints5e = (() => { //eslint-disable-line
   }
   
   const handleInput = (msg) => {
-    console.log(msg);
     if (msg.rolltemplate && config.sheets.includes(msg.rolltemplate)) {
       const spellLevel = getSpellLevel(msg.content);
       if (spellLevel > 0) {
@@ -86,7 +83,6 @@ const spellPoints5e = (() => { //eslint-disable-line
           return;
         }
         const isUsingSpellPoints = getSpellPointFlag(caster);
-        console.info(spellLevel, isUsingSpellPoints);
         if (isUsingSpellPoints) {
           const spellPointsAttribute = getSpellPoints(caster);
           if (spellPointsAttribute) adjustSpellPoints(caster, spellPointsAttribute, spellLevel);
