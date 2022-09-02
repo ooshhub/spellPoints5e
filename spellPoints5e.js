@@ -6,7 +6,7 @@ const spellPoints5e = (() => { //eslint-disable-line
     scriptVersion = '0.1.0';
 
   const config = {
-    sheets: ['atkdmg', 'atk', 'spell', 'dmg'],
+    templates: ['atkdmg', 'atk', 'spell', 'dmg'],
     spellPointFlagAttribute: 'use_spell_points',
     spellPointProgression: [ 0, 2, 3, 5, 6, 7, 9, 10, 11, 13 ],
     spellPointsResourceNameRx: /spell\spoints\s*$/i,
@@ -74,7 +74,7 @@ const spellPoints5e = (() => { //eslint-disable-line
   }
   
   const handleInput = (msg) => {
-    if (msg.rolltemplate && config.sheets.includes(msg.rolltemplate)) {
+    if (msg.rolltemplate && config.templates.includes(msg.rolltemplate)) {
       const spellLevel = getSpellLevel(msg.content);
       if (spellLevel > 0) {
         const caster = getCharacter(msg.content);
