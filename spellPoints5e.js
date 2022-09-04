@@ -18,7 +18,7 @@ const spellPoints5e = (() => { //eslint-disable-line
   }
 
   const getCharacter = (msgContent) => {
-    const charName = (msgContent.match(/{charname=([^}]*)}}/)||[])[1];
+    const charName = (msgContent.match(/charname=([^}]*)(}|$)/)||[])[1];
     const char = findObjs({ type: 'character', name: charName })[0];
     return char;
   }
