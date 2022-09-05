@@ -14,7 +14,7 @@ const spellPoints5e = (() => { //eslint-disable-line
 
   const getSpellLevel = (msgContent) => {
     const spellLevel = (msgContent.match(/{{(spell)?level=([^}]*)/)||[])[2];
-    return spellLevel.replace(/\D/g, '');
+    return spellLevel ? spellLevel.replace(/\D/g, '') : null;
   }
 
   const getCharacter = (msgContent) => {
