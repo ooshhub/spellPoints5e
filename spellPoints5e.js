@@ -10,6 +10,10 @@ const spellPoints5e = (() => { //eslint-disable-line
     spellPointFlagAttribute: 'use_spell_points',
     spellPointProgression: [ 0, 2, 3, 5, 6, 7, 9, 10, 11, 13 ],
     spellPointsResourceNameRx: /spell\spoints\s*$/i,
+    ignoreSpellTags: [
+      /{innate=\s*\w/i,
+      /{ritual=\s*\w/i,
+    ]
   }
 
   const getSpellLevel = (msgContent) => {
@@ -76,7 +80,7 @@ const spellPoints5e = (() => { //eslint-disable-line
   const handleInput = (msg) => {
     if (msg.rolltemplate && config.templates.includes(msg.rolltemplate)) {
       const spellLevel = getSpellLevel(msg.content);
-      if (spellLevel > 0) {
+      if (spellLevel > 0 && !spellIsCostless(msg.content)) {
         const caster = getCharacter(msg.content);
         if (!caster) {
           postMessage(`Couldn't find caster for level ${spellLevel} spellcast.`, 'gm');
@@ -89,6 +93,14 @@ const spellPoints5e = (() => { //eslint-disable-line
         }
       }
     }
+  }
+
+  const spellIsCostless = (messageContent) => {
+    for (const rx of config.ignoreSpellTags) {
+      if (rx.test(messageContent)) return true;
+    }
+
+    return false;
   }
 
   on('ready', () => {
